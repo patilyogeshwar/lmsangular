@@ -16,11 +16,11 @@ export class BoardcastComponent implements OnInit{
   ngOnInit(): void {
     this.fetchVideoDetails();
   }
-
+/* fatch video */
   fetchVideoDetails() {
     const backendApiUrl = 'http://143.244.136.201:3001/v1/broadcast?limit=10&page=1';
 
-    this.http.get<any>(backendApiUrl).subscribe((data) => {
+    this.http.get<any>(backendApiUrl).subscribe((data: { title: string; path: string; }) => { 
       this.videoTitle = data.title;
       this.videoPath = data.path;
     });
