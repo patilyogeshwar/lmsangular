@@ -16,7 +16,7 @@ export class BoardcastComponent implements OnInit{
   ngOnInit(): void {
     this.fetchVideoDetails();
   }
-/* fatch video  15:38 changes */
+/* fatch video  15:38 changes ok */
   fetchVideoDetails() {
     const backendApiUrl = 'http://143.244.136.201:3001/v1/broadcast?limit=10&page=1';
 
