@@ -1,0 +1,11 @@
+<div style="display: flex;" *ngIf="authentication">
+    <app-admin-skeleton-sidebar [ngStyle]="{'width': toggleButton ? '125px' : '75px' }"></app-admin-skeleton-sidebar>
+    <div class="w-100">
+        <app-admin-skeleton-navbar (message)="onMessageFromChild($event)"></app-admin-skeleton-navbar>
+        <div class="body">
+            <app-admin-skeleton-body></app-admin-skeleton-body>
+        </div>
+    </div>
+</div>
+<app-login *ngIf="!authentication" (loginEvent)="loginEventHander($event)">
+</app-login>

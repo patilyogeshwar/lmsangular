@@ -1,0 +1,207 @@
+<div class="heading p-3">
+    <div class="d-flex">
+        <div class="col-md-6">
+            <h5>Lesson Master</h5>
+            <p class="sub-heading">Setup &#8226; <span>Lesson Master</span></p>
+        </div>
+        <div class="offset-3 col-md-3">
+            <input class="form-control search-bar" [(ngModel)]="searchBox" placeholder="Search">
+        </div>
+    </div>
+</div>
+<div class="card-body pb-3">
+    <h4 class="heading px-4"><img class="pb-1 me-2" src="../../../assets/icons/minus-squared.png"> Create Lesson</h4>
+    <div class="d-flex px-4">
+        <div class="col-md-6 pe-2">
+            <div class="card px-4 py-3">
+                <div class="text-area">
+                    <form [formGroup]="lessonForm" (ngSubmit)="submitForm()">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <select class="form-select mt-3" formControlName="boardId"
+                                    (change)="getMediumByBoardId($event,false)"
+                                    [ngClass]="{'is-invalid':submitted && f.boardId.errors}">
+                                    <option disabled value="null">Select Board</option>
+                                    <option *ngFor="let board of allBoards" value="{{board.id}}">{{board.name}}</option>
+                                </select>
+                                <div *ngIf="f.boardId.errors" class="invalid-feedback">
+                                    <div *ngIf="f.boardId.errors.required">Board is required</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-select mt-3" formControlName="mediumId"
+                                    (change)="getClassByMediumId($event, false)"
+                                    [ngClass]="{'is-invalid':submitted && f.mediumId.errors}">
+                                    <option disabled value="null">Select Medium</option>
+                                    <option *ngFor="let medium of allMediums" value="{{medium.id}}">{{medium.name}}
+                                    </option>
+                                </select>
+                                <div *ngIf="f.mediumId.errors" class="invalid-feedback">
+                                    <div *ngIf="f.mediumId.errors.required">Medium is required</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-select mt-3" formControlName="classId"
+                                    (change)="getSubjectByClassId($event, false)"
+                                    [ngClass]="{'is-invalid':submitted && f.classId.errors}">
+                                    <option disabled value="null">Select Class</option>
+                                    <option *ngFor="let class of allClasses" value="{{class.id}}">{{class.className}}
+                                    </option>
+                                </select>
+                                <div *ngIf="f.classId.errors" class="invalid-feedback">
+                                    <div *ngIf="f.classId.errors.required">Class is required</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-select mt-3" formControlName="subjectId"
+                                    (change)="getBookBySubjectId($event, false)"
+                                    [ngClass]="{'is-invalid':submitted && f.subjectId.errors}">
+                                    <option disabled value="null">Select Subject</option>
+                                    <option *ngFor="let subject of allSubjects" value="{{subject.id}}">{{subject.name}}
+                                    </option>
+                                </select>
+                                <div *ngIf="f.subjectId.errors" class="invalid-feedback">
+                                    <div *ngIf="f.subjectId.errors.required">Subject is required</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-select mt-3" formControlName="bookId"
+                                    (change)="getChapterByBookId($event)"
+                                    [ngClass]="{'is-invalid':submitted && f.bookId.errors}">
+                                    <option disabled value="null">Select Book</option>
+                                    <option *ngFor="let book of allbooks" value="{{book.id}}">{{book.name}}</option>
+                                </select>
+                                <div *ngIf="f.bookId.errors" class="invalid-feedback">
+                                    <div *ngIf="f.bookId.errors.required">Book is required</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-select mt-3" formControlName="chapterId"
+                                    [ngClass]="{'is-invalid':submitted && f.chapterId.errors}">
+                                    <option disabled value="null">Select Chapter</option>
+                                    <option *ngFor="let chapter of allChapters" value="{{chapter.id}}">
+                                        {{chapter.chapterName}}</option>
+                                </select>
+                                <div *ngIf="f.chapterId.errors" class="invalid-feedback">
+                                    <div *ngIf="f.chapterId.errors.required">chapter is required</div>
+                                </div>
+                            </div>
+
+                            <div formArrayName="lessonArray">
+                                <div *ngFor="let item of lessonArray.controls; let i = index" [formGroupName]="i">
+                                    <div class="row">
+                                        <div class="col-md-11">
+                                            <input class="form-control" formControlName="name" placeholder="Lesson name"
+                                                [ngClass]="{ 'is-invalid': submitted && lessonArray.controls[i].status == 'INVALID' }">
+                                            <div *ngIf="submitted && lessonArray.controls[i].status == 'INVALID'"
+                                                class="invalid-feedback">
+                                                <div *ngIf="submitted">Lesson name is required</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1 text-center" *ngIf="lessonArray.controls.length > 1">
+                                            <button type="button" class="btn remove-btn"
+                                                (click)="removelesson(item)">X</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="from-group action-buttons">
+                            <button class="btn addMore-btn" type="button" (click)="addlesson()"
+                                *ngIf="formType == 'Save'">Add lesson</button>
+                            <button class="btn save-btn" (click)="submitForm()" *ngIf="formType == 'Save'">Save</button>
+                            <button class="btn save-btn" *ngIf="formType == 'Update'">Update</button>
+                            <button class="btn cancel-btn" type="button" (click)="cancel()" >Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 2nd col -->
+        <div class="col-md-6 ps-2">
+            <div class="card p-3">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <select class="form-select" (change)="getMediumByBoardId($event, false)">
+                            <option value="" disabled selected>Select board </option>
+                            <option value="{{board.id}}" *ngFor="let board of allBoards">{{board.name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <select class="form-select" (change)="getClassByMediumId($event, false)">
+                            <option value="" disabled selected>Select medium </option>
+                            <option value="{{medium.id}}" *ngFor="let medium of allMediums">{{medium.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <select class="form-select" (change)="getSubjectByClassId($event, false)">
+                            <option value="" disabled selected>Select class </option>
+                            <option value="{{class.id}}" *ngFor="let class of allClasses">{{class.className}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <select class="form-select" (change)="getBookBySubjectId($event, false)">
+                            <option value="" disabled selected>Select Subject </option>
+                            <option value="{{subject.id}}" *ngFor="let subject of allSubjects">{{subject.name}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <select class="form-select" (change)="getChapterByBookId($event)">
+                            <option value="" disabled selected>Select books </option>
+                            <option value="{{book.id}}" *ngFor="let book of allbooks">{{book.name}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <select class="form-select" (change)="getlessonByChpaterId($event)">
+                            <option value="" disabled selected>Select chapter</option>
+                            <option value="{{chapter.id}}" *ngFor="let chapter of allChapters">{{chapter.chapterName}}
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+                <hr>
+                <table class="table table-responsive table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Lessons</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of allLessons | paginate: paginationConfig | customFilter:searchBox;let i = index">
+                            <td>{{data.name}}
+                                <div class="float-end table-action-btn">
+                                    <button class="edit" type="button" (click)="getLessonById(data.id)"><i
+                                            class="bi bi-pencil-fill"></i></button> &nbsp;
+                                    <button class="delete" type="button" (click)="deleteLesson(data.id)"><i
+                                            class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="text-center" *ngIf="allSubjects?.length == 0 || !allSubjects">
+                            Not records found
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md-2">
+                        <select class="form-select" (change)="selectPaginationSize($event)">
+                            <option value="10" selected>10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                    <div class="col-md-10 pt-2">
+                        <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

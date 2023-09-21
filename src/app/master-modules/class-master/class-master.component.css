@@ -1,0 +1,15 @@
+.save-btn,.addMore-btn{
+    background-color: #33306D;
+    color: aliceblue;
+    border-style: none;
+    font-size: small;
+    width: 120px;
+
+}
+.cancelbtn{
+    background-color:#FFF5F8;
+    color: #F1416C;
+    border-style: none;
+    font-size: small;
+    width: 120px;
+}

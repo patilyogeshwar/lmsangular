@@ -1,0 +1,18 @@
+app-admin-skeleton-sidebar {
+    background-color: #fff;
+    display: block;
+    width: 75px;
+    height: 100vh;
+    transition: 0.5s;
+}
+
+app-admin-skeleton-navbar {
+    background-color: #fff;
+    height: 70px;
+    width: 100%;
+    position: fixed;
+}
+
+.body {
+    margin-top: 70px;
+}

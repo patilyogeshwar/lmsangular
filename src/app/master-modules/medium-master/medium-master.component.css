@@ -1,0 +1,8 @@
+.card-body .form-control,
+.form-select {
+    font-family: 'Inter', sans-serif;
+    height: 50px !important;
+    color: gray;
+    font-size: 13px;
+    font-weight: 600;
+}

@@ -1,0 +1,165 @@
+<div class="heading p-3">
+    <div class="d-flex">
+        <div class="col-md-6">
+            <h5>Subject Master</h5>
+            <p class="sub-heading">Setup &#8226; <span>Subject Master</span></p>
+        </div>
+        <div class="offset-3 col-md-3">
+            <input class="form-control search-bar" [(ngModel)]="searchBox" placeholder="Search">
+        </div>
+    </div>
+</div>
+
+<div class="card-body pb-3">
+    <h4 class="heading px-4"><img class="pb-1 me-2" src="../../../assets/icons/minus-squared.png"> Create Subject</h4>
+    <div class="d-flex px-4">
+        <div class="col-md-6 pe-2">
+            <div class="card px-4 py-3">
+                <div class="text-area">
+                    <form [formGroup]="subjectForm" (ngSubmit)="submitForm()">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <select formControlName="boardId" class="form-select"
+                                    (change)="getMediumByBoardId($event)"
+                                    [ngClass]="{ 'is-invalid': submitted && f.boardId.errors }">
+                                    <option value="null" disabled selected>Select Board </option>
+                                    <option value="{{board.id}}" *ngFor="let board of allBoards">{{board.name}}</option>
+                                </select>
+                                <div *ngIf="submitted && f.boardId.errors" class="invalid-feedback">
+                                    <div *ngIf="f.boardId.errors.required">Board is required</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-9">
+                                <select formControlName="mediumId" class="form-select"
+                                    (change)="getClassByMediumId($event)"
+                                    [ngClass]="{ 'is-invalid': submitted && f.mediumId.errors }">
+                                    <option value="null" disabled selected>Select Medium </option>
+                                    <option value="{{medium.id}}" *ngFor="let medium of allMediums">{{medium.name}}
+                                    </option>
+                                </select>
+                                <div *ngIf="submitted && f.mediumId.errors" class="invalid-feedback">
+                                    <div *ngIf="f.mediumId.errors.required">Medium is required</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-9">
+                                <select formControlName="classId" class="form-select"
+                                    (change)="getSubjectByClassId($event)"
+                                    [ngClass]="{ 'is-invalid': submitted && f.classId.errors }">
+                                    <option value="null" disabled selected>Select Class </option>
+                                    <option value="{{class.id}}" *ngFor="let class of allClasses">{{class.className}}
+                                    </option>
+                                </select>
+                                <div *ngIf="submitted && f.classId.errors" class="invalid-feedback">
+                                    <div *ngIf="f.classId.errors.required">Class is required</div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div formArrayName="subjectArray">
+                                    <div *ngFor="let item of subjectArray.controls; let i = index" [formGroupName]="i">
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <input class="form-control" formControlName="name"
+                                                    placeholder="Subject Name"
+                                                    [ngClass]="{ 'is-invalid': submitted && subjectArray.value[i].name == null }">
+                                                <div *ngIf="submitted && subjectArray.value[i].name == null"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="submitted">Name is required</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <input type="number" class="form-control" formControlName="order"
+                                                    placeholder="Order"
+                                                    [ngClass]="{ 'is-invalid': submitted && subjectArray.value[i].order == null }">
+                                                <div *ngIf="submitted && subjectArray.value[i].order == null"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="submitted">Order is required</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 text-center" *ngIf="subjectArray.controls.length > 1">
+                                                <button type="button" class="btn remove-btn"
+                                                    (click)="removeSubject(item)">X</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="from-group action-buttons">
+                            <button class="btn addMore-btn" type="button" (click)="addSubject()"
+                                *ngIf="formType == 'Save'">Add subject</button>
+                            <button class="btn save-btn" (click)="submitForm()" *ngIf="formType == 'Save'">Save</button>
+                            <button class="btn save-btn" *ngIf="formType == 'Update'">Update</button>
+                            <button class="btn cancel-btn" type="button" (click)="cancel()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- 2nd col -->
+        <div class="col-md-6 ps-2">
+            <div class="card p-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <select class="form-select" (change)="getMediumByBoardId($event)">
+                            <option value="" disabled selected>Select board </option>
+                            <option value="{{board.id}}" *ngFor="let board of allBoards">{{board.name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select" (change)="getClassByMediumId($event)">
+                            <option value="" disabled selected>Select medium </option>
+                            <option value="{{medium.id}}" *ngFor="let medium of allMediums">{{medium.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select" (change)="getSubjectByClassId($event)">
+                            <option value="" disabled selected>Select class </option>
+                            <option value="{{class.id}}" *ngFor="let class of allClasses">{{class.className}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <table class="table table-responsive table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Subjects</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let data of allSubjects | paginate: paginationConfig | customFilter:searchBox;let i = index">
+                            <td>{{data.name}}
+                                <div class="float-end table-action-btn">
+                                    <button class="edit" type="button" (click)="getSubjectById(data.id)"><i
+                                            class="bi bi-pencil-fill"></i></button> &nbsp;
+                                    <button class="delete" type="button" (click)="deleteSubject(data.id)"><i
+                                            class="bi bi-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="text-center" *ngIf="allSubjects?.length == 0 || !allSubjects">
+                            Not records found
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md-2">
+                        <select class="form-select" (change)="selectPaginationSize($event)">
+                            <option value="10" selected>10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                        </select>
+                    </div>
+                    <div class="col-md-10 pt-2">
+                        <pagination-controls (pageChange)="pageChangeEvent($event)"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

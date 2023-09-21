@@ -1,0 +1,6 @@
+
+.search-bar::placeholder {
+    color: #A1A5B7;
+    font-size: 13px;
+    font-weight: 400;
+}

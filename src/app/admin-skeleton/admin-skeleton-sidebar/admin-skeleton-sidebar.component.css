@@ -1,0 +1,25 @@
+button {
+    display: block;
+}
+
+@media only screen and (min-width: 600px) {
+    .hamburger {
+        display: none;
+    }
+}
+
+button {
+    width: 50px;
+    height: 45px;
+    color: #7E8299;
+}
+
+button:hover {
+    background-color: #33306D;
+}
+
+button + button img:hover {
+    filter: brightness(0) invert(1);
+}
+
+/* filter: brightness(0) invert(1); */
