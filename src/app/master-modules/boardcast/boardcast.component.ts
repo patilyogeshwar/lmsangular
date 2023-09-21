@@ -1,6 +1,7 @@
 import { Component , OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+
 @Component({
   selector: 'app-boardcast',
   templateUrl: './boardcast.component.html',
@@ -16,7 +17,7 @@ export class BoardcastComponent implements OnInit{
   ngOnInit(): void {
     this.fetchVideoDetails();
   }
-/* fatch video  15:38 changes ok */
+/* fatch video  15:38 changes ok base url static set */
   fetchVideoDetails() {
     const backendApiUrl = 'http://143.244.136.201:3001/v1/broadcast?limit=10&page=1';
 
